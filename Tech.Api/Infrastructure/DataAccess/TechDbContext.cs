@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tech.Api.Model;
 
-namespace Tech.Api.Infrastructure
+namespace Tech.Api.Infrastructure.DataAccess
 {
     public class TechDbContext : DbContext
     {
@@ -10,7 +10,7 @@ namespace Tech.Api.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=C:\\Users\\Guilherme\\Desktop\\Workspace\\Tech\\Tech.Api\\Infrastructure\\TechLibraryDb.db ");
+            optionsBuilder.UseSqlite("Data Source=C:\\Users\\Guilherme\\Desktop\\Workspace\\Tech\\Tech.Api\\Infrastructure\\TechLibraryDb.db");
         }
     }
 }

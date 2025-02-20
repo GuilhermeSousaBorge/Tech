@@ -5,27 +5,27 @@ using TechDto.Request;
 using TechDto.Response;
 
 namespace Tech.Api.Controllers
-
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class LoginController : ControllerBase
     {
         [HttpPost]
-        [ProducesResponseType(typeof(UserCreatedResponseDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ErrorsResponseDto), StatusCodes.Status400BadRequest)]
-        public IActionResult Create(UserRequestDto request)
+        [ProducesResponseType(typeof(UserCreatedResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorsResponseDto), StatusCodes.Status401Unauthorized)]
+        public IActionResult SignIn(SignInRequestDto request)
         {
             try
             {
-                var userService = new UsersService();
-                var newUser = userService.CreateUser(request);
+                var signInService = new SignInService();
 
-                return Created(string.Empty, newUser);
+                var response = signInService.SignIn(request);
+
+                return Ok(response);
             }
             catch (TechException ex)
             {
-                return BadRequest(new ErrorsResponseDto
+                return StatusCode(StatusCodes.Status401Unauthorized,new ErrorsResponseDto
                 {
                     Errors = ex.GetErrorMessage()
                 });
