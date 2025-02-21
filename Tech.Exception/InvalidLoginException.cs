@@ -4,7 +4,11 @@ namespace Tech.Exception
 {
     public class InvalidLoginException : TechException
     {
-        public override List<string> GetErrorMessage() => ["Email ou senha invalidos"];
+        public InvalidLoginException() : base("Email ou senha invalidos")
+        {
+        }
+
+        public override List<string> GetErrorMessage() => [Message];
 
         public override HttpStatusCode GetStatusCode() => HttpStatusCode.Unauthorized;
     }
