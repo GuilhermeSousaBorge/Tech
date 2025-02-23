@@ -10,9 +10,5 @@ namespace Tech.Api.Infrastructure.DataAccess
         public DbSet<Book> Books { get; set; }
         public DbSet<Checkout> Checkouts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=C:\\Users\\Guilherme\\Desktop\\Workspace\\Tech\\Tech.Api\\Infrastructure\\TechLibraryDb.db");
-        }
     }
 }

@@ -30,7 +30,7 @@ namespace Tech.Api.Infrastructure.Security.Token.Acess
         }
         private static SymmetricSecurityKey SecurityKey()
         {
-            var key = "5qdi1VRdAuQ9Oequ4JDOLdruvCmWN15C";
+            var key = Environment.GetEnvironmentVariable("TOKEN_KEY") ?? throw new System.Exception("Chave nao ocnfigurada!");
 
             var symmetricKey = Encoding.UTF8.GetBytes(key);
             return new SymmetricSecurityKey(symmetricKey);

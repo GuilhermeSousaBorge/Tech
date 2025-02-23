@@ -1,12 +1,32 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Tech.Api.Filters;
+using Tech.Api.Infrastructure.DataAccess;
 
 const string AUTHENTICATION_TYPE = "Bearer";
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Define o ambiente (Development ou Production)
+var env = builder.Environment.EnvironmentName;
+
+// Lê a string de conexão do arquivo correto ou da variável de ambiente
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (env == "Production")
+{
+    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+    builder.Services.AddDbContext<TechDbContext>(options =>
+    options.UseNpgsql(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<TechDbContext>(options =>
+    options.UseSqlite(connectionString));
+}
 
 
 builder.Services.AddControllers();
@@ -83,7 +103,7 @@ app.Run();
 
 SymmetricSecurityKey SecurityKey()
 {
-    var signingKey = "5qdi1VRdAuQ9Oequ4JDOLdruvCmWN15C";
+    var signingKey = Environment.GetEnvironmentVariable("TOKEN_KEY") ?? throw new System.Exception("Chave nao ocnfigurada!");
 
     var symmetricKey = Encoding.UTF8.GetBytes(signingKey);
 
